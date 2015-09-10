@@ -3,7 +3,7 @@
 
 #define BSIZE 64
 #define COL 5
-#define BASE 16
+#define BASE 8
 
 
 static const char infile[] = "a.txt";

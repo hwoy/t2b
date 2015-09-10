@@ -9,7 +9,7 @@ ui2s (unsigned int num, char *buff, unsigned int bsize, unsigned int base)
     {
       k = j % base;
       j /= base;
-      ((base == 16) && (k > 9)) ? buff[i] = k + 'A' : buff[i] = k + '0';
+      buff[i] = ((base == 16) && (k > 9)) ? k + 'A' - 10 : k + '0';
     }
   l = i;
 
