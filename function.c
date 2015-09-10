@@ -74,7 +74,7 @@ pow2ui (unsigned int base, unsigned int pow)
 unsigned int
 s2ui (const char *ch, unsigned int base)
 {
-  unsigned int i, j, k;
+  unsigned int i, j, k, l;
   j = 0;
   k = 0;
   i = sLen (ch) - 1;
@@ -82,11 +82,11 @@ s2ui (const char *ch, unsigned int base)
     {
       if (base == 16)
 	{
-	  j +=
+	  l =
 	    (((ch[i] >= 'A'
-	       && ch[i] <=
-	       'F') ? (ch[i] - 'A' + 10) : (ch[i] - '0')) * pow2ui (base,
-								    k++));
+	       && ch[i] <= 'F') ? (ch[i] - 'A' + 10) : (ch[i] - '0')));
+
+	  j += l * pow2ui (base, k++);
 	}
 
       else
@@ -110,4 +110,12 @@ sLen (const char *ch)
     {
     }
   return i;
+}
+
+int
+testbase (unsigned int ch, unsigned int base)
+{
+  return (base == 16
+	  && (ch >= 'A'
+	      && ch <= 'F')) ? base - (ch - 'A' + 10) : base - (ch - '0');
 }

@@ -11,6 +11,7 @@ void showErr (const char *errstr[], int errNO);
 int showHelp (char *path, const char *param[], const char *pdetail[],
 	      int ret);
 static unsigned int basename (const char *ch);
+static unsigned int extend (const char *ch);
 
 static const char suffix[] = ".bin";
 static char buff[BSIZE];
@@ -36,7 +37,7 @@ int
 main (int argc, char *argv[])
 {
   FILE *in, *out;
-  unsigned int ch, i, j, base, syn;
+  unsigned int ch, i, j, isb, base, syn;
   static char instr[1024], outstr[1024];
 /******************* Parameters **********************/
 
@@ -49,6 +50,7 @@ main (int argc, char *argv[])
 
   base = BASE;
   j = 1;
+  isb = 0;
   if (!strncmp (argv[1], param[e_base], sLen (param[e_base])))
     {
       if (!isUint (argv[1] + 2))
@@ -58,6 +60,7 @@ main (int argc, char *argv[])
 	}
       base = s2ui (argv[1] + 2, 10);
       j = 2;
+      isb = 1;
     }
 
   if (!base)
@@ -66,12 +69,25 @@ main (int argc, char *argv[])
       return showHelp (argv[0], param, pdetail, 0);
     }
 
+
 /******************* Parameters **********************/
   for (syn = 0; j < argc; j++)
     {
+
       strcpy (instr, argv[j]);
       strcpy (outstr, argv[j]);
-      strcat (outstr, suffix);
+
+
+      if (!isb && extend (outstr) && isUint (extend (outstr) + outstr))
+	{
+	  base = s2ui (extend (outstr) + outstr, 10);
+	  outstr[extend (outstr) - 1] = 0;
+	}
+      else
+	{
+	  strcat (outstr, suffix);
+	}
+
 
       if (!(in = fopen (instr, "rb")))
 	{
@@ -94,8 +110,9 @@ main (int argc, char *argv[])
       while ((ch = fgetc (in)) != EOF)
 	{
 
-	  if ((ch >= '0' && ch <= '9')
-	      || ((base == 16) && ((ch >= 'A' && ch <= 'F'))))
+	  if (((ch >= '0' && ch <= '9')
+	       || ((base == 16) && (ch >= 'A' && ch <= 'F')))
+	      && (testbase (ch, base) > 0))
 	    {
 	      buff[i++] = ch;
 	    }
@@ -149,6 +166,20 @@ basename (const char *ch)
   for (i = 0, j = 0; ch[i]; i++)
     {
       if (ch[i] == '\\' || ch[i] == '/')
+	{
+	  j = i;
+	}
+    }
+  return (j == 0) ? 0 : j + 1;
+}
+
+static unsigned int
+extend (const char *ch)
+{
+  unsigned int i, j;
+  for (i = 0, j = 0; ch[i]; i++)
+    {
+      if (ch[i] == '.')
 	{
 	  j = i;
 	}
