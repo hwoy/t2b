@@ -10,12 +10,15 @@ ui2s (unsigned int num, char *buff, unsigned int bsize, unsigned int base)
       buff[0] = 0;
       return 0;
     }
-  for (j = num, i = 0; j > 0 && i < bsize; i++)
+
+  j = num, i = 0;
+  do
     {
       k = j % base;
       j /= base;
-      buff[i] = ((base == 16) && (k > 9)) ? k + 'A' - 10 : k + '0';
+      buff[i++] = ((base == 16) && (k > 9)) ? k + 'A' - 10 : k + '0';
     }
+  while (j > 0 && i < bsize);
   l = i;
 
   buff[i] = 0;
@@ -69,7 +72,7 @@ pow2ui (unsigned int base, unsigned int pow)
 }
 
 unsigned int
-s2ui (const char *ch)
+s2ui (const char *ch, unsigned int base)
 {
   unsigned int i, j, k;
   j = 0;
@@ -77,12 +80,26 @@ s2ui (const char *ch)
   i = sLen (ch) - 1;
   do
     {
-      j += (ch[i] - '0') * pow2ui (10, k++);
+      if (base == 16)
+	{
+	  j +=
+	    (((ch[i] >= 'A'
+	       && ch[i] <=
+	       'F') ? (ch[i] - 'A' + 10) : (ch[i] - '0')) * pow2ui (base,
+								    k++));
+	}
+
+      else
+	{
+	  j += (ch[i] - '0') * pow2ui (base, k++);
+	}
     }
   while (i-- != 0);
 
   return j;
 }
+
+
 
 unsigned int
 sLen (const char *ch)

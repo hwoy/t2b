@@ -1,5 +1,5 @@
 cc = gcc
-bin = b2t
+bin = t2b
 CFLAGS =  -O2  -ansi -Wpedantic -Wall -Werror
 
 .PHONY: all clean
