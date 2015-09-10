@@ -5,6 +5,11 @@ ui2s (unsigned int num, char *buff, unsigned int bsize, unsigned int base)
 {
   unsigned int i, j, k, l;
   char chb, che;
+  if (!base)
+    {
+      buff[0] = 0;
+      return 0;
+    }
   for (j = num, i = 0; j > 0 && i < bsize; i++)
     {
       k = j % base;

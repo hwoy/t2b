@@ -1,5 +1,5 @@
-a.txt
-b.txt
+*.txt
+*.10
 
 *.o
 b2t
