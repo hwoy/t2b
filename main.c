@@ -18,7 +18,7 @@ static char buff[BSIZE];
 
 static const char *errstr[] =
   { "Parameters is not match", "Input file is not found",
-  "Can not assign an output file", "Base number must not be zero",
+  "Can not assign an output file", "(1<= base <=10) AND (base=16)",
   "Syntax Error"
 };
 static const char *param[] = { "-b" };
@@ -26,7 +26,7 @@ static const char *pdetail[] = { "base Number" };
 
 enum __errNO
 {
-  e_param, e_input, e_output, e_basezero, e_syn
+  e_param, e_input, e_output, e_limitbase, e_syn
 };
 enum __param
 {
@@ -63,9 +63,9 @@ main (int argc, char *argv[])
       isb = 1;
     }
 
-  if (!base)
+  if (base == 0 || (base > 10 && base != 16))
     {
-      showErr (errstr, e_basezero);
+      showErr (errstr, e_limitbase);
       return showHelp (argv[0], param, pdetail, 1);
     }
 
