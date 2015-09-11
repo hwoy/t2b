@@ -4,7 +4,7 @@
 
 #define BSIZE 64
 #define COL 16
-#define BASE 10
+#define BASE 16
 #define DELIM ','
 
 void showErr (const char *errstr[], int errNO);
