@@ -44,7 +44,7 @@ main (int argc, char *argv[])
   if (argc < 2)
     {
       showErr (errstr, e_param);
-      return showHelp (argv[0], param, pdetail, 0);
+      return showHelp (argv[0], param, pdetail, 1);
       return 1;
     }
 
@@ -56,7 +56,7 @@ main (int argc, char *argv[])
       if (!isUint (argv[1] + sLen (param[e_base])))
 	{
 	  showErr (errstr, e_param);
-	  return showHelp (argv[0], param, pdetail, 0);
+	  return showHelp (argv[0], param, pdetail, 1);
 	}
       base = s2ui (argv[1] + sLen (param[e_base]), 10);
       j = 2;
@@ -66,7 +66,7 @@ main (int argc, char *argv[])
   if (!base)
     {
       showErr (errstr, e_basezero);
-      return showHelp (argv[0], param, pdetail, 0);
+      return showHelp (argv[0], param, pdetail, 1);
     }
 
 
