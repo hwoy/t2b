@@ -53,12 +53,12 @@ main (int argc, char *argv[])
   isb = 0;
   if (!strncmp (argv[1], param[e_base], sLen (param[e_base])))
     {
-      if (!isUint (argv[1] + 2))
+      if (!isUint (argv[1] + sLen (param[e_base])))
 	{
 	  showErr (errstr, e_param);
 	  return showHelp (argv[0], param, pdetail, 0);
 	}
-      base = s2ui (argv[1] + 2, 10);
+      base = s2ui (argv[1] + sLen (param[e_base]), 10);
       j = 2;
       isb = 1;
     }
